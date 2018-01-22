@@ -1,0 +1,188 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Speedray Asset Query API
+  license:
+    name: LGPL-3
+host: 192.168.1.23:8080
+basePath: /o/rest/speedray/api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /content/asset-query:
+    post:
+      description: Retrieve asset(s)
+      operationId: assetQuery
+      parameters:
+        - in: body
+          description: Asset Query payload
+          name: assetQuery
+          schema:
+            $ref: '#/definitions/AssetQuery'
+      responses:
+        "200":
+          description: An array of content
+          schema:
+            $ref: '#/definitions/AssetQueryResponse'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  AssetQueryResponse:
+    description: Response payload of content from AssetQuery
+    type: object
+    properties:
+      contents:
+        type: array
+        items:
+          type: object
+          properties:
+            mime-type:
+              type: string
+            url:
+              type: string
+            content:
+              type: string
+              format: binary
+  AssetCategory:
+    description: Category Reference
+    type: object
+    properties:
+      vocabulary:
+        type: string
+      category:
+        type: string
+  AssetQuery:
+    description: AssetQuery payload for retrieving assets via search
+    type: object
+    properties:
+      scopeGroupId:
+        type: integer
+        format: int64
+      allCategories:
+        type: array
+        items:
+            $ref: '#/definitions/AssetCategory'
+      allTags:
+        type: array
+        items:
+          type: string
+      andOperator:
+        type: boolean
+      anyCategories:
+        type: array
+        items:
+            $ref: '#/definitions/AssetCategory'
+      anyTags:
+        type: array
+        items:
+          type: string
+      classNames:
+        type: array
+        items:
+          type: string
+      classTypes:
+        type: array
+        items:
+          type: string
+      description:
+        type: string
+      end:
+        type: integer
+        format: int32
+        default: -1
+      excludeZeroViewCount:
+          type: boolean
+      expirationDate:
+        type: string
+        format: date-time
+      groupIds:
+        type: array
+        items:
+          type: string
+      keywords:
+        type: array
+        items:
+          type: string
+      layoutPath:
+        type: string
+      listable:
+        type: boolean
+      notAllCategories:
+        type: array
+        items:
+            $ref: '#/definitions/AssetCategory'
+      notAllTags:
+        type: array
+        items:
+          type: string
+      notAllTagsArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: string
+      notAnyCategories:
+        type: array
+        items:
+            $ref: '#/definitions/AssetCategory'
+      notAnyTags:
+        type: array
+        items:
+          type: string
+      orderByCol1:
+        type: string
+        enum:
+        - title
+        - createDate
+        - modifiedDate
+        - publishDate
+        - expirationDate
+        - priority
+        - viewCount
+        - ratings
+      orderByCol2:
+        type: string
+        enum:
+        - title
+        - createDate
+        - modifiedDate
+        - publishDate
+        - expirationDate
+        - priority
+        - viewCount
+        - ratings
+      orderByType1:
+        type: string
+      orderByType2:
+        type: string
+      publishDate:
+        type: string
+        format: date-time
+      start:
+        type: integer
+        format: int32
+        default: -1
+      title:
+        type: string
+      userName:
+        type: string
+      visible:
+        type: boolean
+        default: true

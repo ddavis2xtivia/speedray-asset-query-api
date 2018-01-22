@@ -1,0 +1,42 @@
+{
+  "name": "@speedray/asset-query",
+  "version": "1.0.0",
+  "license": "LGPL-3",
+  "main": "./dist/api.js",
+  "browser": "./dist/api.js",
+  "typings": "./dist/api.d.ts",
+  "dependencies": {
+    "core-js": "^2.4.0",
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "scripts": {
+    "prepublish": "npm run codegen && typings install && tsc",
+    "codegen": "node node_modules/@speedray/codegen/index.js"
+  },
+  "devDependencies": {
+    "@speedray/codegen": "^1.0.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
+  },
+  "speedray": {
+    "services": [
+      {
+        "outputDir": "openapi-typescipt-fetch-api",
+        "produceModels": true,
+        "produceApis": true,
+        "produceSupportingFiles": true,
+        "definition": "services.yaml",
+        "method": "typescript-fetch"
+      },
+      {
+        "outputDir": "openapi-jaxrs/openapi",
+        "definition": "services.yaml",
+        "method": "jaxrs",
+        "invokerPackage": "com.xtivia.speedray.authentication.jaxrs.api",
+        "modelPackage": "com.xtivia.speedray.authentication.jaxrs.model",
+        "apiPackage": "com.xtivia.speedray.authentication.jaxrs.api",
+        "dateLibrary": "java8"
+      }
+    ]
+  }
+}
